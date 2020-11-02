@@ -24,7 +24,7 @@
 #include "tree_schema.h"
 
 API LY_ERR
-lys_print_module(struct ly_out *out, const struct lys_module *module, LYS_OUTFORMAT format, size_t UNUSED(line_length),
+lys_print_module(struct ly_out *out, const struct lys_module *module, LYS_OUTFORMAT format, size_t line_length,
         uint32_t options)
 {
     LY_ERR ret;
@@ -62,10 +62,19 @@ lys_print_module(struct ly_out *out, const struct lys_module *module, LYS_OUTFOR
 
         ret = yin_print_parsed_module(out, module, module->parsed, options);
         break;
-    /* TODO not yet implemented
     case LYS_OUT_TREE:
-        ret = tree_print_model(out, module, target_node, line_length, options);
+        if (!module->parsed) {
+            LOGERR(module->ctx, LY_EINVAL, "Module \"%s\" parsed module missing.", module->name);
+            ret = LY_EINVAL;
+            break;
+        } else if(!module->compiled) {
+            LOGERR(module->ctx, LY_EINVAL, "Module \"%s\" compiled module missing.", module->name);
+            ret = LY_EINVAL;
+            break;
+        }
+        ret = tree_print_parsed_and_compiled_module(out, module, options, line_length);
         break;
+    /* TODO not yet implemented
     case LYS_OUT_INFO:
         ret = info_print_model(out, module, target_node);
         break;
@@ -81,7 +90,7 @@ lys_print_module(struct ly_out *out, const struct lys_module *module, LYS_OUTFOR
 
 API LY_ERR
 lys_print_submodule(struct ly_out *out, const struct lys_module *module, const struct lysp_submodule *submodule,
-        LYS_OUTFORMAT format, size_t UNUSED(line_length), uint32_t options)
+        LYS_OUTFORMAT format, size_t line_length, uint32_t options)
 {
     LY_ERR ret;
 
@@ -97,10 +106,10 @@ lys_print_submodule(struct ly_out *out, const struct lys_module *module, const s
     case LYS_OUT_YIN:
         ret = yin_print_parsed_submodule(out, module, submodule, options);
         break;
-    /* TODO not yet implemented
     case LYS_OUT_TREE:
-        ret = tree_print_model(out, module, target_node, line_length, options);
-        break;
+      ret = tree_print_submodule(out, module, submodule, options, line_length);
+      break;
+    /* TODO not yet implemented
     case LYS_OUT_INFO:
         ret = info_print_model(out, module, target_node);
         break;
@@ -186,7 +195,7 @@ lys_print_clb(ly_write_clb writeclb, void *user_data, const struct lys_module *m
 }
 
 API LY_ERR
-lys_print_node(struct ly_out *out, const struct lysc_node *node, LYS_OUTFORMAT format, size_t UNUSED(line_length), uint32_t options)
+lys_print_node(struct ly_out *out, const struct lysc_node *node, LYS_OUTFORMAT format, size_t line_length, uint32_t options)
 {
     LY_ERR ret;
 
@@ -203,10 +212,10 @@ lys_print_node(struct ly_out *out, const struct lysc_node *node, LYS_OUTFORMAT f
     case LYS_OUT_YIN:
         ret = yin_print_parsed(out, module);
         break;
-    case LYS_OUT_TREE:
-        ret = tree_print_model(out, module, target_node, line_length, options);
-        break;
     */
+    case LYS_OUT_TREE:
+        ret = tree_print_compiled_node(out, node, options, line_length);
+        break;
     default:
         LOGERR(NULL, LY_EINVAL, "Unsupported output format.");
         ret = LY_EINVAL;
