@@ -11,6 +11,7 @@ set(format_sources
     ${CMAKE_CURRENT_SOURCE_DIR}/schema/*.h
     PARENT_SCOPE)
 
+ly_add_utest(NAME int8 SOURCES types/int8.c)
 ly_add_utest(NAME common SOURCES basic/test_common.c)
 ly_add_utest(NAME set SOURCES basic/test_set.c)
 ly_add_utest(NAME hash_table SOURCES basic/test_hash_table.c)
