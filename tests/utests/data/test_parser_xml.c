@@ -49,7 +49,7 @@ setup(void **state)
 
     UTEST_SETUP;
 
-    UTEST_ADD_MODULE(schema, LYS_IN_YANG, NULL, NULL);
+    UTEST_ADD_MODULE(schema, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
     assert_int_equal(LY_SUCCESS, ly_ctx_set_searchdir(UTEST_LYCTX, TESTS_DIR_MODULES_YANG));
 
     return 0;

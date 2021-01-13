@@ -35,7 +35,7 @@ setup(void **state)
 
     UTEST_SETUP;
 
-    UTEST_ADD_MODULE(schema, LYS_IN_YANG, NULL, NULL);
+    UTEST_ADD_MODULE(schema, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
 
     return 0;
 }

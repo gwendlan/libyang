@@ -73,8 +73,8 @@ static int
 setup(void **state)
 {
     UTEST_SETUP;
-    UTEST_ADD_MODULE(schema_a, LYS_IN_YANG, NULL, NULL);
-    UTEST_ADD_MODULE(schema_b, LYS_IN_YANG, NULL, NULL);
+    UTEST_ADD_MODULE(schema_a, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
+    UTEST_ADD_MODULE(schema_b, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
 
     return 0;
 }
@@ -834,7 +834,7 @@ test_leafref(void **state)
             "}}}";
 
     /* additional schema */
-    UTEST_ADD_MODULE(schema, LYS_IN_YANG, NULL, NULL);
+    UTEST_ADD_MODULE(schema, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
 
     /* valid data */
     data = "<leaflisttarget xmlns=\"urn:tests:types\">x</leaflisttarget>"

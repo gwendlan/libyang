@@ -111,8 +111,8 @@ test_yanglib(void **state)
     LY_ERR ret;
 
     ly_ctx_set_module_imp_clb(UTEST_LYCTX, test_imp_clb, NULL);
-    UTEST_ADD_MODULE(schema_a, LYS_IN_YANG, feats, NULL);
-    UTEST_ADD_MODULE(schema_b, LYS_IN_YANG, NULL, NULL);
+    UTEST_ADD_MODULE(schema_a, LYS_IN_YANG, feats, LY_SUCCESS, NULL);
+    UTEST_ADD_MODULE(schema_b, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
 
     assert_int_equal(LY_SUCCESS, ly_ctx_get_yanglib_data(UTEST_LYCTX, &tree));
 

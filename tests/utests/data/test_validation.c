@@ -54,7 +54,7 @@ test_when(void **state)
             "    }\n"
             "}";
 
-    UTEST_ADD_MODULE(schema, LYS_IN_YANG, NULL, NULL);
+    UTEST_ADD_MODULE(schema, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
 
     CHECK_PARSE_LYD_PARAM("<c xmlns=\"urn:tests:a\">hey</c>", LYD_XML, 0, LYD_VALIDATE_PRESENT, LY_EVALID, tree);
     CHECK_LOG_CTX("When condition \"/cont/b = 'val_b'\" not satisfied.", "Schema location /a:c, data location /a:c.");
@@ -102,7 +102,7 @@ test_mandatory(void **state)
             "    }\n"
             "}";
 
-    UTEST_ADD_MODULE(schema, LYS_IN_YANG, NULL, NULL);
+    UTEST_ADD_MODULE(schema, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
 
     CHECK_PARSE_LYD_PARAM("<d xmlns=\"urn:tests:b\"/>", LYD_XML, 0, LYD_VALIDATE_PRESENT, LY_EVALID, tree);
     CHECK_LOG_CTX("Mandatory node \"choic\" instance does not exist.", "Schema location /b:choic.");
@@ -150,7 +150,7 @@ test_minmax(void **state)
             "    }\n"
             "}";
 
-    UTEST_ADD_MODULE(schema, LYS_IN_YANG, NULL, NULL);
+    UTEST_ADD_MODULE(schema, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
 
     CHECK_PARSE_LYD_PARAM("<d xmlns=\"urn:tests:c\"/>", LYD_XML, 0, LYD_VALIDATE_PRESENT, LY_EVALID, tree);
     CHECK_LOG_CTX("Too few \"l\" instances.", "Schema location /c:choic/b/l.");
@@ -232,7 +232,7 @@ test_unique(void **state)
 {
     struct lyd_node *tree;
 
-    UTEST_ADD_MODULE(schema_d, LYS_IN_YANG, NULL, NULL);
+    UTEST_ADD_MODULE(schema_d, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
 
     LYD_TREE_CREATE("<lt xmlns=\"urn:tests:d\">\n"
             "    <k>val1</k>\n"
@@ -368,7 +368,7 @@ test_unique_nested(void **state)
 {
     struct lyd_node *tree;
 
-    UTEST_ADD_MODULE(schema_d, LYS_IN_YANG, NULL, NULL);
+    UTEST_ADD_MODULE(schema_d, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
 
     /* nested list uniquest are compared only with instances in the same parent list instance */
     LYD_TREE_CREATE("<lt2 xmlns=\"urn:tests:d\">\n"
@@ -626,7 +626,7 @@ test_dup(void **state)
             "    }\n"
             "}";
 
-    UTEST_ADD_MODULE(schema, LYS_IN_YANG, NULL, NULL);
+    UTEST_ADD_MODULE(schema, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
 
     CHECK_PARSE_LYD_PARAM("<d xmlns=\"urn:tests:e\">25</d><d xmlns=\"urn:tests:e\">50</d>",
             LYD_XML, 0, LYD_VALIDATE_PRESENT, LY_EVALID, tree);
@@ -753,7 +753,7 @@ test_defaults(void **state)
             "    }\n"
             "}";
 
-    UTEST_ADD_MODULE(schema, LYS_IN_YANG, NULL, &mod);
+    UTEST_ADD_MODULE(schema, LYS_IN_YANG, NULL, LY_SUCCESS, &mod);
 
     assert_int_equal(LY_SUCCESS, ly_ctx_set_searchdir(UTEST_LYCTX, TESTS_DIR_MODULES_YANG));
     assert_non_null(ly_ctx_load_module(UTEST_LYCTX, "ietf-netconf-with-defaults", "2011-06-01", NULL));\
@@ -958,7 +958,7 @@ test_state(void **state)
             "    }\n"
             "}";
 
-    UTEST_ADD_MODULE(schema, LYS_IN_YANG, NULL, NULL);
+    UTEST_ADD_MODULE(schema, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
 
     data = "<cont xmlns=\"urn:tests:h\">\n"
             "  <cont2>\n"
@@ -997,7 +997,7 @@ test_must(void **state)
             "    }\n"
             "}";
 
-    UTEST_ADD_MODULE(schema, LYS_IN_YANG, NULL, NULL);
+    UTEST_ADD_MODULE(schema, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
 
     CHECK_PARSE_LYD_PARAM("<cont xmlns=\"urn:tests:i\">\n"
             "  <l>wrong</l>\n"
@@ -1070,7 +1070,7 @@ test_action(void **state)
     struct ly_in *in;
     struct lyd_node *tree, *op_tree;
 
-    UTEST_ADD_MODULE(schema_j, LYS_IN_YANG, feats_j, NULL);
+    UTEST_ADD_MODULE(schema_j, LYS_IN_YANG, feats_j, LY_SUCCESS, NULL);
 
     assert_int_equal(LY_SUCCESS, ly_in_new_memory(
             "<cont xmlns=\"urn:tests:j\">\n"
@@ -1121,7 +1121,7 @@ test_reply(void **state)
     struct ly_in *in;
     struct lyd_node *tree, *op_tree;
 
-    UTEST_ADD_MODULE(schema_j, LYS_IN_YANG, feats_j, NULL);
+    UTEST_ADD_MODULE(schema_j, LYS_IN_YANG, feats_j, LY_SUCCESS, NULL);
 
     assert_int_equal(LY_SUCCESS, ly_in_new_memory(
             "<cont xmlns=\"urn:tests:j\">\n"

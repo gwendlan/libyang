@@ -128,7 +128,7 @@ test_origin(void **state)
     struct lyd_node *tree_2;
     char *xml_out; /* tree_2 */
 
-    UTEST_ADD_MODULE(origin_yang, LYS_IN_YANG, NULL, NULL);
+    UTEST_ADD_MODULE(origin_yang, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
     assert_int_equal(LY_SUCCESS, lys_set_implemented(ly_ctx_get_module_latest(UTEST_LYCTX, "ietf-origin"), NULL));
 
     CHECK_PARSE_LYD(data_xml, tree_1);
@@ -341,8 +341,8 @@ test_statements(void **state)
     struct lyd_node *tree_2;
     char *xml_out; /* tree_2 */
 
-    UTEST_ADD_MODULE(links_yang, LYS_IN_YANG, NULL, NULL);
-    UTEST_ADD_MODULE(statements_yang, LYS_IN_YANG, NULL, NULL);
+    UTEST_ADD_MODULE(links_yang, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
+    UTEST_ADD_MODULE(statements_yang, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
 
     CHECK_PARSE_LYD(data_xml, tree_1);
 

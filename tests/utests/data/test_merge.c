@@ -206,7 +206,7 @@ test_leaf(void **state)
     const char *result = "<A xmlns=\"urn:x\"><f1>aa</f1><B><f2>bb</f2></B></A>";
     struct lyd_node *source, *target;
 
-    UTEST_ADD_MODULE(sch, LYS_IN_YANG, NULL, NULL);
+    UTEST_ADD_MODULE(sch, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
 
     LYD_TREE_CREATE(src, source);
     LYD_TREE_CREATE(trg, target);
@@ -245,7 +245,7 @@ test_container(void **state)
     const char *result = "<A xmlns=\"aa:A\"><B><f2>aaa</f2></B><C><f3>bbb</f3></C></A>";
     struct lyd_node *source, *target;
 
-    UTEST_ADD_MODULE(sch, LYS_IN_YANG, NULL, NULL);
+    UTEST_ADD_MODULE(sch, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
 
     LYD_TREE_CREATE(src, source);
     LYD_TREE_CREATE(trg, target);
@@ -312,7 +312,7 @@ test_list(void **state)
             "</inner1>\n";
     struct lyd_node *source, *target;
 
-    UTEST_ADD_MODULE(sch, LYS_IN_YANG, NULL, NULL);
+    UTEST_ADD_MODULE(sch, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
 
     LYD_TREE_CREATE(src, source);
     LYD_TREE_CREATE(trg, target);
@@ -387,7 +387,7 @@ test_list2(void **state)
             "</inner1>\n";
     struct lyd_node *source, *target;
 
-    UTEST_ADD_MODULE(sch, LYS_IN_YANG, NULL, NULL);
+    UTEST_ADD_MODULE(sch, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
 
     LYD_TREE_CREATE(src, source);
     LYD_TREE_CREATE(trg, target);
@@ -442,7 +442,7 @@ test_case(void **state)
             "</cont>\n";
     struct lyd_node *source, *target;
 
-    UTEST_ADD_MODULE(sch, LYS_IN_YANG, NULL, NULL);
+    UTEST_ADD_MODULE(sch, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
 
     LYD_TREE_CREATE(src, source);
     LYD_TREE_CREATE(trg, target);
@@ -481,7 +481,7 @@ test_dflt(void **state)
     struct lyd_node *target = NULL;
     struct lyd_node *source = NULL;
 
-    UTEST_ADD_MODULE(sch, LYS_IN_YANG, NULL, NULL);
+    UTEST_ADD_MODULE(sch, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
 
     assert_int_equal(lyd_new_path(NULL, UTEST_LYCTX, "/merge-dflt:top/c", "c_dflt", 0, &target), LY_SUCCESS);
     assert_int_equal(lyd_validate_all(&target, NULL, LYD_VALIDATE_PRESENT, NULL), LY_SUCCESS);
@@ -524,7 +524,7 @@ test_dflt2(void **state)
     struct lyd_node *target;
     struct lyd_node *source;
 
-    UTEST_ADD_MODULE(sch, LYS_IN_YANG, NULL, NULL);
+    UTEST_ADD_MODULE(sch, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
 
     assert_int_equal(lyd_new_path(NULL, UTEST_LYCTX, "/merge-dflt:top/c", "c_dflt", 0, &target), LY_SUCCESS);
     assert_int_equal(lyd_validate_all(&target, NULL, LYD_VALIDATE_PRESENT, NULL), LY_SUCCESS);
@@ -562,7 +562,7 @@ test_leafrefs(void **state)
             "<l xmlns=\"urn:x\"><n>c</n><r>a</r></l>";
     struct lyd_node *source, *target;
 
-    UTEST_ADD_MODULE(sch, LYS_IN_YANG, NULL, NULL);
+    UTEST_ADD_MODULE(sch, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
 
     LYD_TREE_CREATE(src, source);
     LYD_TREE_CREATE(trg, target);

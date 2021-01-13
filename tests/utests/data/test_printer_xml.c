@@ -89,9 +89,9 @@ setup(void **state)
 
     UTEST_SETUP;
 
-    UTEST_ADD_MODULE(schema_defs, LYS_IN_YANG, NULL, NULL);
-    UTEST_ADD_MODULE(schema_types, LYS_IN_YANG, NULL, NULL);
-    UTEST_ADD_MODULE(schema_defaults, LYS_IN_YANG, NULL, NULL);
+    UTEST_ADD_MODULE(schema_defs, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
+    UTEST_ADD_MODULE(schema_types, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
+    UTEST_ADD_MODULE(schema_defaults, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
 
     return 0;
 }

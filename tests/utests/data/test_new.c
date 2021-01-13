@@ -73,7 +73,7 @@ test_top_level(void **state)
     const struct lys_module *mod;
     struct lyd_node *node, *rpc;
 
-    UTEST_ADD_MODULE(schema_a, LYS_IN_YANG, NULL, &mod);
+    UTEST_ADD_MODULE(schema_a, LYS_IN_YANG, NULL, LY_SUCCESS, &mod);
 
     /* list */
     assert_int_equal(lyd_new_list(NULL, mod, "l1", 0, &node, "val_a", "val_b"), LY_SUCCESS);
@@ -159,7 +159,7 @@ test_opaq(void **state)
     struct lyd_node *root, *node;
     struct lyd_node_opaq *opq;
 
-    UTEST_ADD_MODULE(schema_a, LYS_IN_YANG, NULL, NULL);
+    UTEST_ADD_MODULE(schema_a, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
 
     assert_int_equal(lyd_new_opaq(NULL, UTEST_LYCTX, "node1", NULL, "my-module", &root), LY_SUCCESS);
     assert_null(root->schema);
@@ -185,7 +185,7 @@ test_path(void **state)
     LY_ERR ret;
     struct lyd_node *root, *node, *parent;
 
-    UTEST_ADD_MODULE(schema_a, LYS_IN_YANG, NULL, NULL);
+    UTEST_ADD_MODULE(schema_a, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
 
     /* create 2 nodes */
     ret = lyd_new_path2(NULL, UTEST_LYCTX, "/a:c/x[.='val']", "vvv", 0, 0, &root, &node);

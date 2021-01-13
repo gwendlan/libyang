@@ -64,7 +64,7 @@ test_module(void **state)
 
     assert_int_equal(LY_SUCCESS, ly_out_new_memory(&printed, 0, &out));
 
-    UTEST_ADD_MODULE(orig, LYS_IN_YANG, NULL, &mod);
+    UTEST_ADD_MODULE(orig, LYS_IN_YANG, NULL, LY_SUCCESS, &mod);
     assert_int_equal(LY_SUCCESS, lys_print_module(out, mod, LYS_OUT_YANG, 0, 0));
     assert_int_equal(strlen(orig), ly_out_printed(out));
     assert_string_equal(printed, orig);
@@ -104,7 +104,7 @@ test_module(void **state)
             "  prefix b;\n\n"
             "  revision 2019-04-16;\n"
             "}\n";
-    UTEST_ADD_MODULE(orig, LYS_IN_YANG, NULL, &mod);
+    UTEST_ADD_MODULE(orig, LYS_IN_YANG, NULL, LY_SUCCESS, &mod);
     assert_int_equal(LY_SUCCESS, lys_print_module(out, mod, LYS_OUT_YANG, 0, 0));
     assert_int_equal(strlen(orig), ly_out_printed(out));
     assert_string_equal(printed, orig);
@@ -135,7 +135,7 @@ test_module(void **state)
             "  namespace \"urn:test:c\";\n"
             "  prefix c;\n"
             "}\n";
-    UTEST_ADD_MODULE(orig, LYS_IN_YANG, NULL, &mod);
+    UTEST_ADD_MODULE(orig, LYS_IN_YANG, NULL, LY_SUCCESS, &mod);
     assert_int_equal(LY_SUCCESS, lys_print_module(out, mod, LYS_OUT_YANG, 0, 0));
     assert_int_equal(strlen(orig), ly_out_printed(out));
     assert_string_equal(printed, orig);
@@ -193,7 +193,7 @@ test_submodule(void **state)
     assert_int_equal(LY_SUCCESS, ly_out_new_memory(&printed, 0, &out));
 
     ly_ctx_set_module_imp_clb(UTEST_LYCTX, test_imp_clb, submod_yang);
-    UTEST_ADD_MODULE(mod_yang, LYS_IN_YANG, NULL, &mod);
+    UTEST_ADD_MODULE(mod_yang, LYS_IN_YANG, NULL, LY_SUCCESS, &mod);
     assert_int_equal(LY_SUCCESS, lys_print_submodule(out, mod, mod->parsed->includes[0].submodule, LYS_OUT_YANG, 0, 0));
     assert_int_equal(strlen(submod_yang), ly_out_printed(out));
     assert_string_equal(printed, submod_yang);

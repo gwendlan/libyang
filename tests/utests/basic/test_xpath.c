@@ -77,7 +77,7 @@ setup(void **state)
 {
     UTEST_SETUP;
 
-    UTEST_ADD_MODULE(schema_a, LYS_IN_YANG, NULL, NULL);
+    UTEST_ADD_MODULE(schema_a, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
 
     return 0;
 }
@@ -251,7 +251,7 @@ test_toplevel(void **state)
     struct lyd_node *tree;
     struct ly_set *set;
 
-    UTEST_ADD_MODULE(schema_b, LYS_IN_YANG, NULL, NULL);
+    UTEST_ADD_MODULE(schema_b, LYS_IN_YANG, NULL, LY_SUCCESS, NULL);
 
     assert_int_equal(LY_SUCCESS, lyd_parse_data_mem(UTEST_LYCTX, data, LYD_XML, LYD_PARSE_STRICT, LYD_VALIDATE_PRESENT, &tree));
     assert_non_null(tree);

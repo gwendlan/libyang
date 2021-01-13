@@ -27,6 +27,7 @@
 #include <string.h>
 
 #include "libyang.h"
+#include "plugins_types.h"
 #include "tests/config.h"
 
 /**
@@ -204,6 +205,25 @@ struct utest_context {
 /*
  *   LIBYANG NODE CHECKING
  */
+
+#define CHECK_LYSC_TYPE(NODE, TYPE, EXTS) \
+    assert_non_null(NODE); \
+    assert_int_equal((NODE)->basetype, TYPE); \
+    CHECK_ARRAY((NODE)->exts, EXTS); \
+    assert_ptr_equal((NODE)->plugin, &(ly_builtin_type_plugins[TYPE]))
+
+#define CHECK_LYSC_TYPE_NUM(NODE, TYPE, EXTS, RANGE) \
+    CHECK_LYSC_TYPE(NODE, TYPE, EXTS);\
+    CHECK_POINTER((NODE)->range, RANGE)
+
+#define CHECK_LYSC_RANGE(NODE, DSC, EAPPTAG, EMSG, EXTS, PARTS, REF) \
+    assert_non_null(NODE);\
+    CHECK_STRING((NODE)->dsc, DSC);\
+    CHECK_STRING((NODE)->eapptag, EAPPTAG);\
+    CHECK_STRING((NODE)->emsg, EMSG);\
+    CHECK_ARRAY((NODE)->exts, EXTS);\
+    CHECK_ARRAY((NODE)->parts, PARTS);\
+    CHECK_STRING((NODE)->ref, REF)
 
 /**
  * @brief assert that lysp_action_inout structure members are correct
@@ -416,6 +436,46 @@ struct utest_context {
     CHECK_STRING((NODE)->ref, REF); \
     assert_int_equal(VALUE, (NODE)->value);
 
+
+/**
+ * @brief assert that lysp_type_enum structure members are correct
+ * @param[in] NODE pointer to lysp_type variable
+ * @param[in] BASES  expected [sized array](@ref sizedarrays) size of list of indentifiers
+ * @param[in] BITS   expected [sized array](@ref sizedarrays) size of list of bits
+ * @param[in] COMPILED 0 -> pointer to compiled type is null, 1 -> pointer to compilet type is valid
+ * @param[in] ENUMS  expected [sized array](@ref sizedarrays) size of list of enums-stmts
+ * @param[in] EXTS   expected [sized array](@ref sizedarrays) size of list of extension instances
+ * @param[in] FLAGS  expected flags
+ * @param[in] FRACTION_DIGITS expected number of fraction digits decimal64
+ * @param[in] LENGTH expected 0 -> there isnt any restriction on length, 1 -> type is restricted on length (string, binary)
+ * @param[in] NAME   expected name of type
+ * @param[in] PATH   0 -> no pointer to parsed path, 1 -> pointer to parsed path is valid
+ * @param[in] PATTERNS expected [sized array](@ref sizedarrays) size of list of patterns for string
+ * @param[in] PMOD   expected submodule where type is defined 0 -> pointer is null, 1 -> pointer is not null
+ * @param[in] RANGE   expected [sized array](@ref sizedarrays) size of list of range restriction
+ * @param[in] REQUIRE_INSTANCE expected require instance flag
+ * @param[in] TYPES   expected [sized array](@ref sizedarrays) size of list of sub-types
+ */
+
+#define CHECK_LYSP_TYPE(NODE, BASES, BITS, COMPILED, ENUMS, EXTS, FLAGS, FRACTIONS_DIGITS, \
+	LENGTH, NAME, PATH, PATTERNS, PMOD, RANGE, REQUIRE_INSTANCE, TYPES) \
+    assert_non_null(NODE);\
+    CHECK_ARRAY((NODE)->bases, BASES); \
+    CHECK_ARRAY((NODE)->bits, BITS); \
+    CHECK_POINTER((NODE)->compiled, COMPILED); \
+    CHECK_ARRAY((NODE)->enums, ENUMS); \
+    CHECK_ARRAY((NODE)->exts, EXTS); \
+    assert_int_equal((NODE)->flags, FLAGS); \
+    assert_int_equal((NODE)->fraction_digits, FRACTIONS_DIGITS); \
+    CHECK_POINTER((NODE)->length, LENGTH); \
+    CHECK_STRING((NODE)->name, NAME); \
+    CHECK_POINTER((NODE)->path, PATH); \
+    CHECK_ARRAY((NODE)->patterns, PATTERNS); \
+    CHECK_POINTER((NODE)->pmod, PMOD); \
+    CHECK_POINTER((NODE)->range, RANGE); \
+    assert_int_equal((NODE)->require_instance, REQUIRE_INSTANCE); \
+    CHECK_ARRAY((NODE)->types , TYPES)
+
 /**
  * @brief assert that lysp_node structure members are correct
  * @param[in] NODE  pointer to lysp_node variable
@@ -444,6 +504,30 @@ struct utest_context {
     CHECK_POINTER((NODE)->parent, PARENT); \
     CHECK_STRING((NODE)->ref, REF); \
     CHECK_POINTER((NODE)->when, WHEN);
+
+/**
+ * @brief assert that lysp_node structure members are correct
+ * @param[in] NODE  pointer to lysp_node variable
+ * @param[in] DSC   expected description statement
+ * @param[in] EXTS  expected [sized array](@ref sizedarrays) size of list of the extension instances
+ * @param[in] FLAGS [schema node flags](@ref snodeflags)
+ * @param[in] IFFEATURES expected [sized array](@ref sizedarrays) size of list of the extension instances
+ * @param[in] NAME  expected name
+ * @param[in] NEXT  0 pointer is null, 1 pointer is not null
+ * @param[in] PARENT    0-> check if node is root, 1-> check if node is not root
+ * @param[in] REF       expected reference statement
+ * @param[in] WHEN      0-> pointer is null, 1 -> pointer is not null
+ * @param[in] MUSTS     expected [sized array](@ref sizedarrays) size of list of must restriction
+ * @param[in] UNITS     expected string reprezenting units
+ * @param[in] DFLT      0-> node dosn't have default value. 1 -> node have default value
+ */
+#define CHECK_LYSP_NODE_LEAF(NODE, DSC, EXTS, FLAGS, IFFEATURES, NAME, NEXT,\
+	       	PARENT, REF, WHEN, MUSTS, UNITS, DFLT) \
+    CHECK_LYSP_NODE(NODE, DSC, EXTS, FLAGS, IFFEATURES, NAME, NEXT, LYS_LEAF, PARENT, REF, WHEN);\
+    CHECK_ARRAY((NODE)->musts, MUSTS);\
+    CHECK_STRING((NODE)->units, UNITS);\
+    CHECK_STRING((NODE)->dflt.str, DFLT);
+
 
 /**
  * @brief assert that lysc_notif structure members are correct
@@ -558,6 +642,32 @@ struct utest_context {
     CHECK_POINTER((NODE)->priv, PRIV); \
     CHECK_STRING((NODE)->ref, REF); \
     CHECK_ARRAY((NODE)->when, WHEN);
+
+/**
+ * @brief assert that lysc_node_leaf structure members are correct
+ * @param[in] NODE    pointer to lysc_node variable
+ * @param[in] DSC     expected description
+ * @param[in] EXTS    expected [sized array](@ref sizedarrays) size of list of the extension instances
+ * @param[in] FLAGS   [schema node flags](@ref snodeflags)
+ * @param[in] MODULE  0 pointer is null, 1 pointer is not null
+ * @param[in] NAME    expected name
+ * @param[in] NEXT    0 pointer is null, 1 pointer is not null
+ * @param[in] PARENT  0-> check if node is root, 1-> check if node is not root
+ * @param[in] PRIV    0-> pointer is null, 1-> pointer is not null
+ * @param[in] REF     expected reference
+ * @param[in] WHEN    expected [sized array](@ref sizedarrays) size of list of pointers to when statements * @param[in] WHEN      0-> pointer is null, 1 -> pointer is not null
+ * @param[in] MUSTS     expected [sized array](@ref sizedarrays) size of list of must restriction
+ * @param[in] UNITS     expected string reprezenting units
+ * @param[in] DFLT      0-> node dosn't have default value. 1 -> node have default value
+ */
+#define CHECK_LYSC_NODE_LEAF(NODE, DSC, EXTS, FLAGS, MODULE, NAME, NEXT,\
+	       	 PARENT, PRIV, REF, WHEN, MUSTS, UNITS, DFLT) \
+    CHECK_LYSC_NODE(NODE, DSC, EXTS, FLAGS, MODULE, NAME, NEXT, LYS_LEAF, PARENT, PRIV, REF, WHEN);\
+    CHECK_ARRAY((NODE)->musts, MUSTS);\
+    assert_non_null((NODE)->type);\
+    CHECK_STRING((NODE)->units, UNITS);\
+    CHECK_POINTER((NODE)->dflt, DFLT);
+
 
 /**
  * @brief assert that lyd_meta structure members are correct
@@ -866,11 +976,12 @@ struct utest_context {
  * @param[in] DATA     String storing the schema module representation.
  * @param[in] FORMAT   Schema format of the @p DATA
  * @param[in] FEATURES Array of module's features to enable
+ * @param[in] RET_CODE ly_in_new_memory return code 
  * @param[out] MOD     Optional parameter as a pointer to variable to store the resulting module.
  */
-#define UTEST_ADD_MODULE(DATA, FORMAT, FEATURES, MOD) \
+#define UTEST_ADD_MODULE(DATA, FORMAT, FEATURES, RET_CODE, MOD) \
     assert_int_equal(LY_SUCCESS, ly_in_new_memory(DATA, &_UC->in)); \
-    assert_int_equal(LY_SUCCESS, lys_parse(_UC->ctx, _UC->in, FORMAT, FEATURES, MOD)); \
+    assert_int_equal(RET_CODE, lys_parse(_UC->ctx, _UC->in, FORMAT, FEATURES, MOD)); \
     ly_in_free(_UC->in, 0); \
     _UC->in = NULL
 

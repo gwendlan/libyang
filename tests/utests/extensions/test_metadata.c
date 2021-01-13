@@ -37,7 +37,7 @@ test_yang(void **state)
             "}}";
     const char *feats[] = {"f", NULL};
 
-    UTEST_ADD_MODULE(data, LYS_IN_YANG, feats, &mod);
+    UTEST_ADD_MODULE(data, LYS_IN_YANG, feats, LY_SUCCESS, &mod);
     assert_int_equal(1, LY_ARRAY_COUNT(mod->compiled->exts));
     e = &mod->compiled->exts[0];
     assert_non_null(ant = (struct lyext_metadata *)e->data);
