@@ -64,10 +64,8 @@ lysp_stmt_validate_value(struct lys_parser_ctx *ctx, enum yang_arg val_type, con
 /**
  * @brief Parse extension instance.
  *
- * @param[in] ctx yang parser context for logging.
- * @param[in,out] data Data to read from, always moved to currently handled character.
- * @param[in] ext_name Extension instance substatement name (keyword).
- * @param[in] ext_name_len Extension instance substatement name length.
+ * @param[in] ctx parser context.
+ * @param[in] stmt Source statement data from the parsed extension instance.
  * @param[in] insubstmt Type of the keyword this extension instance is a substatement of.
  * @param[in] insubstmt_index Index of the keyword instance this extension instance is a substatement of.
  * @param[in,out] exts Extension instances to add to.
@@ -100,8 +98,8 @@ lysp_stmt_ext(struct lys_parser_ctx *ctx, const struct lysp_stmt *stmt, LYEXT_SU
  * @brief Parse a generic text field without specific constraints. Those are contact, organization,
  * description, etc...
  *
- * @param[in] ctx yang parser context for logging.
- * @param[in] stmt Statement structure.
+ * @param[in] ctx parser context.
+ * @param[in] stmt Source statement data from the parsed extension instance.
  * @param[in] substmt Type of this substatement.
  * @param[in] substmt_index Index of this substatement.
  * @param[in,out] value Place to store the parsed value.
@@ -145,8 +143,8 @@ lysp_stmt_text_field(struct lys_parser_ctx *ctx, const struct lysp_stmt *stmt, L
 /**
  * @brief Parse a qname that can have more instances such as if-feature.
  *
- * @param[in] ctx yang parser context for logging.
- * @param[in,out] data Data to read from, always moved to currently handled character.
+ * @param[in] ctx parser context.
+ * @param[in] stmt Source statement data from the parsed extension instance.
  * @param[in] substmt Type of this substatement.
  * @param[in,out] qnames Parsed qnames to add to.
  * @param[in] arg Type of the expected argument.
@@ -189,8 +187,8 @@ lysp_stmt_qnames(struct lys_parser_ctx *ctx, const struct lysp_stmt *stmt, LYEXT
 /**
  * @brief Parse a generic text field that can have more instances such as base.
  *
- * @param[in] ctx yang parser context for logging.
- * @param[in,out] data Data to read from, always moved to currently handled character.
+ * @param[in] ctx parser context.
+ * @param[in] stmt Source statement data from the parsed extension instance.
  * @param[in] substmt Type of this substatement.
  * @param[in,out] texts Parsed values to add to.
  * @param[in] arg Type of the expected argument.
@@ -232,8 +230,8 @@ lysp_stmt_text_fields(struct lys_parser_ctx *ctx, const struct lysp_stmt *stmt, 
 /**
  * @brief Parse the status statement.
  *
- * @param[in] ctx yang parser context for logging.
- * @param[in,out] data Data to read from, always moved to currently handled character.
+ * @param[in] ctx parser context.
+ * @param[in] stmt Source statement data from the parsed extension instance.
  * @param[in,out] flags Flags to add to.
  * @param[in,out] exts Extension instances to add to.
  *
@@ -284,8 +282,8 @@ lysp_stmt_status(struct lys_parser_ctx *ctx, const struct lysp_stmt *stmt, uint1
 /**
  * @brief Parse a restriction such as range or length.
  *
- * @param[in] ctx yang parser context for logging.
- * @param[in,out] data Data to read from, always moved to currently handled character.
+ * @param[in] ctx parser context.
+ * @param[in] stmt Source statement data from the parsed extension instance.
  * @param[in] restr_kw Type of this particular restriction.
  * @param[in,out] exts Extension instances to add to.
  *
@@ -352,8 +350,8 @@ lysp_stmt_restrs(struct lys_parser_ctx *ctx, const struct lysp_stmt *stmt, enum 
 /**
  * @brief Parse the value or position statement. Substatement of type enum statement.
  *
- * @param[in] ctx yang parser context for logging.
- * @param[in,out] data Data to read from, always moved to currently handled character.
+ * @param[in] ctx parser context.
+ * @param[in] stmt Source statement data from the parsed extension instance.
  * @param[in] val_kw Type of this particular keyword.
  * @param[in,out] value Value to write to.
  * @param[in,out] flags Flags to write to.
@@ -438,8 +436,8 @@ error:
 /**
  * @brief Parse the enum or bit statement. Substatement of type statement.
  *
- * @param[in] ctx yang parser context for logging.
- * @param[in,out] data Data to read from, always moved to currently handled character.
+ * @param[in] ctx parser context.
+ * @param[in] stmt Source statement data from the parsed extension instance.
  * @param[in] enum_kw Type of this particular keyword.
  * @param[in,out] enums Enums or bits to add to.
  *
@@ -506,8 +504,8 @@ lysp_stmt_type_enum(struct lys_parser_ctx *ctx, const struct lysp_stmt *stmt, en
 /**
  * @brief Parse the fraction-digits statement. Substatement of type statement.
  *
- * @param[in] ctx yang parser context for logging.
- * @param[in,out] data Data to read from, always moved to currently handled character.
+ * @param[in] ctx parser context.
+ * @param[in] stmt Source statement data from the parsed extension instance.
  * @param[in,out] fracdig Value to write to.
  * @param[in,out] exts Extension instances to add to.
  *
@@ -567,8 +565,8 @@ lysp_stmt_type_fracdigits(struct lys_parser_ctx *ctx, const struct lysp_stmt *st
 /**
  * @brief Parse the require-instance statement. Substatement of type statement.
  *
- * @param[in] ctx yang parser context for logging.
- * @param[in,out] data Data to read from, always moved to currently handled character.
+ * @param[in] ctx parser context.
+ * @param[in] stmt Source statement data from the parsed extension instance.
  * @param[in,out] reqinst Value to write to.
  * @param[in,out] flags Flags to write to.
  * @param[in,out] exts Extension instances to add to.
@@ -618,8 +616,8 @@ lysp_stmt_type_reqinstance(struct lys_parser_ctx *ctx, const struct lysp_stmt *s
 /**
  * @brief Parse the modifier statement. Substatement of type pattern statement.
  *
- * @param[in] ctx yang parser context for logging.
- * @param[in,out] data Data to read from, always moved to currently handled character.
+ * @param[in] ctx parser context.
+ * @param[in] stmt Source statement data from the parsed extension instance.
  * @param[in,out] pat Value to write to.
  * @param[in,out] exts Extension instances to add to.
  *
@@ -675,8 +673,8 @@ lysp_stmt_type_pattern_modifier(struct lys_parser_ctx *ctx, const struct lysp_st
 /**
  * @brief Parse the pattern statement. Substatement of type statement.
  *
- * @param[in] ctx yang parser context for logging.
- * @param[in,out] data Data to read from, always moved to currently handled character.
+ * @param[in] ctx parser context.
+ * @param[in] stmt Source statement data from the parsed extension instance.
  * @param[in,out] patterns Restrictions to add to.
  *
  * @return LY_ERR values.
@@ -739,8 +737,8 @@ lysp_stmt_type_pattern(struct lys_parser_ctx *ctx, const struct lysp_stmt *stmt,
 /**
  * @brief Parse the type statement.
  *
- * @param[in] ctx yang parser context for logging.
- * @param[in,out] data Data to read from, always moved to currently handled character.
+ * @param[in] ctx parser context.
+ * @param[in] stmt Source statement data from the parsed extension instance.
  * @param[in,out] type Type to wrote to.
  *
  * @return LY_ERR values.
@@ -835,6 +833,91 @@ lysp_stmt_type(struct lys_parser_ctx *ctx, const struct lysp_stmt *stmt, struct 
         }
     }
     return LY_SUCCESS;
+}
+
+/**
+ * @brief Parse the leaf statement.
+ *
+ * @param[in] ctx yang parser context for logging.
+ * @param[in,out] siblings Siblings to add to.
+ *
+ * @return LY_ERR values.
+ */
+LY_ERR
+lysp_stmt_leaf(struct lys_parser_ctx *ctx, const struct lysp_stmt *stmt, struct lysp_node *parent, struct lysp_node **siblings)
+{
+    LY_ERR ret = LY_SUCCESS;
+    enum ly_stmt kw;
+    const struct lysp_stmt *child;
+    struct lysp_node_leaf *leaf;
+
+    /* create new leaf structure */
+    LY_LIST_NEW_RET(PARSER_CTX(ctx), siblings, leaf, next, LY_EMEM);
+    leaf->nodetype = LYS_LEAF;
+    leaf->parent = parent;
+
+    /* get name */
+    LY_CHECK_RET(lydict_insert(PARSER_CTX(ctx), stmt->arg, 0, &leaf->name));
+
+    /* parse substatements */
+    for (child = stmt->child; child; child = child->next) {
+        struct ly_in *in;
+        LY_CHECK_RET(ly_in_new_memory(child->stmt, &in));
+        enum ly_stmt kw = lysp_match_kw(in, NULL);
+        ly_in_free(in, 0);
+
+        switch (kw) {
+        case LY_STMT_CONFIG:
+            LY_CHECK_RET(lysp_stmt_config(ctx, &leaf->flags, &leaf->exts));
+            break;
+        case LY_STMT_DEFAULT:
+            LY_CHECK_RET(lysp_stmt_text_field(ctx, child, LYEXT_SUBSTMT_DEFAULT, 0, &leaf->dflt.str, Y_STR_ARG, &leaf->exts));
+            leaf->dflt.mod = ctx->parsed_mod;
+            break;
+        case LY_STMT_DESCRIPTION:
+            LY_CHECK_RET(lysp_stmt_text_field(ctx, child, LYEXT_SUBSTMT_DESCRIPTION, 0, &leaf->dsc, Y_STR_ARG, &leaf->exts));
+            break;
+        case LY_STMT_IF_FEATURE:
+            LY_CHECK_RET(lysp_stmt_qnames(ctx, LYEXT_SUBSTMT_IFFEATURE, &leaf->iffeatures, Y_STR_ARG, &leaf->exts));
+            break;
+        case LY_STMT_MANDATORY:
+            LY_CHECK_RET(lysp_stmt_mandatory(ctx, &leaf->flags, &leaf->exts));
+            break;
+        case LY_STMT_MUST:
+            LY_CHECK_RET(lysp_stmt_restrs(ctx, kw, &leaf->musts));
+            break;
+        case LY_STMT_REFERENCE:
+            LY_CHECK_RET(lysp_stmt_text_field(ctx, child, LYEXT_SUBSTMT_REFERENCE, 0, &leaf->ref, Y_STR_ARG, &leaf->exts));
+            break;
+        case LY_STMT_STATUS:
+            LY_CHECK_RET(lysp_stmt_status(ctx, &leaf->flags, &leaf->exts));
+            break;
+        case LY_STMT_TYPE:
+            LY_CHECK_RET(lysp_stmt_type(ctx, &leaf->type));
+            break;
+        case LY_STMT_UNITS:
+            LY_CHECK_RET(lysp_stmt_text_field(ctx, child, LYEXT_SUBSTMT_UNITS, 0, &leaf->units, Y_STR_ARG, &leaf->exts));
+            break;
+        case LY_STMT_WHEN:
+            LY_CHECK_RET(lysp_stmt_when(ctx, &leaf->when));
+            break;
+        case LY_STMT_EXTENSION_INSTANCE:
+            LY_CHECK_RET(lysp_stmt_ext(ctx, child, LYEXT_SUBSTMT_SELF, 0, &leaf->exts));
+            break;
+        default:
+            LOGVAL_PARSER(ctx, LY_VCODE_INCHILDSTMT, ly_stmt2str(kw), "leaf");
+            return LY_EVALID;
+        }
+    }
+    LY_CHECK_RET(ret);
+checks:
+    /* mandatory substatements */
+    if (!leaf->type.name) {
+        LOGVAL_PARSER(ctx, LY_VCODE_MISSTMT, "type", "leaf");
+        return LY_EVALID;
+    }
+
+    return ret;
 }
 
 LY_ERR
